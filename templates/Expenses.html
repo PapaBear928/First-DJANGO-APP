@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %} Your Expenses {% endblock %}
+{% block content %}
+    <div class="jumbotron">
+        {% if user.is_authenticated %}
+        <h4 class="display-5"> Welcome on board: {{ user.username }}</h4>
+        <a class="btn btn-success" href="{% url 'login' %}">Logout</a>
+    {% else %}
+        <a class="btn btn-success" href="{% url 'logout' %}">Login</a>
+    {% endif %}
+    </div>
+    <hr>
+
+    {% csrf_token %}
+     <a class="btn btn-warning" href="{% url 'new' %}">New Expense</a>
+    <h2>The number of records in the database: {{ expenses|length}} </h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Date of introduction</th>
+        <th scope="col">ID</th>
+        <th scope="col">Category</th>
+        <th scope="col">Title</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Description</th>
+        <th scope="col">Unexpected</th>
+        <th scope="col">Date of introduction</th>
+        <th scope="col">Payment date</th>
+        <th scope="col">Bills photo</th>
+    </tr>
+</thead>
+<tbody>
+
+        {% for expense in expenses %}
+
+            <tr>
+                <td>{{ expense.date_of_introduction }}</td>
+                <td>{{ expense.id }}</td>
+                <td>{{ Categories.category }}</td>
+                <td>{{ expense.title }}</td>
+                <td>{{ expense.amount }} PLN</td>
+                <td>{{ expense.description }}</td>
+                <td>{{ expense.unexpected }}</td>
+                <td>{{ expense.date_of_introduction }}</td>
+                <td>{{ expense.date_of_payment }}</td>
+                <td>{{ expense.bills_photo }}</td>
+
+                <td>
+
+            <a class="btn btn-primary" href="{% url 'edit' expense.id %}" role="button">Modify</a>
+
+            <a class="btn btn-danger" href="{% url 'delete' expense.id %}" role="button">Delete</a>
+
+        {% endfor %}
+</tbody>
+
+</table>
+
+{% endblock %}

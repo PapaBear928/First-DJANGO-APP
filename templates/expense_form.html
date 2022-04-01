@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% block title %} New expense {% endblock %}
+
+{% block content %}
+
+<div class="card" style="width: 35rem; float: left; margin-right: 1rem; ">
+  <div class="card-body">
+      {% if new %}
+        <h5 class="card-title">You can add here new expense</h5>
+      {% else %}
+        <h5 class="card-title">You can modify here your expense</h5>
+      {% endif %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ catform|bootstrap }}
+        {{ form|bootstrap }}
+
+
+            {% if new %}
+            <br>
+            <button type="submit" class="btn btn-warning"> Add this <i class="fa-solid fa-right-to-bracket"></i></button>
+            {% else %}
+            <button type="submit" class="btn btn-warning"> Modify this <i class="fa-solid fa-right-to-bracket"></i></button>
+            {% endif %}
+        <input class="btn btn-success" type="reset" value="Reset">
+        <a class="btn btn-primary" href="{% url 'all' %}" role="button">Back</a>
+
+    </form>
+   </div>
+</div>
+
+{% if xtraform %}
+    <div class="card" style="width: 32rem; float: left; margin-right: 1rem;">
+      <div class="card-body">
+          <h5 class="card-title">Add your description comment here:</h5>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ xtraform|bootstrap }}
+                <a class="btn btn-warning" href="{% url 'all' %}" role="button">Add this review</a>
+
+        </form>
+      </div>
+    </div>
+    {% endif %}
+
+    {% for one in extra_descript  %}
+        <h3> More info: {{one.extra_description}}</h3>
+    {% endfor %}
+
+{% endblock %}
+
